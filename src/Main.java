@@ -3,9 +3,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
+
+    private static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
         AddressBook book = new AddressBook();
@@ -14,7 +17,7 @@ public class Main {
 
         System.out.println("WITAMY W INTERAKTYWNEJ KSIĄŻCE TELEFONICZNEJ");
         boolean run = true;
-        while(run) {
+        while (run) {
             System.out.println("Wybierz odpowiednią cyfrę:");
             System.out.println("1. - Wyświetl całą książke");
             System.out.println("2. - Wyświetl osobę o konkretnym nazwisku");
@@ -22,10 +25,10 @@ public class Main {
             System.out.println("4. - Usuń osobę o wskazanym numerze telefonu");
             System.out.println("5. - Zmodyfikuj dane osoby o wskazanym numerze telefonu");
             System.out.println("6. - Zakończ pracę z książką");
-            Scanner scan = new Scanner(System.in);
+
             int option = scan.nextInt();
 
-            switch (option){
+            switch (option) {
                 case 1:
                     book.writeAll();
                     break;
@@ -37,15 +40,13 @@ public class Main {
                     break;
                 case 3:
                     System.out.print("Podaj imię: ");
-                    String name = scan.next();
-                    System.out.println("");
+                    String name = getName();
 
                     System.out.print("Podaj nazwisko: ");
-                    surname = scan.next();
-                    System.out.println("");
+                    surname = getName();
 
                     System.out.print("Podaj telefon: ");
-                    String phone = scan.next();
+                    String phone = getPhoneNumber(book);
                     System.out.println("");
 
                     System.out.print("Podaj ulicę: ");
@@ -53,7 +54,7 @@ public class Main {
                     System.out.println("");
 
                     System.out.print("Podaj numer domu: ");
-                    String houseNumber = scan.next();
+                    String houseNumber = getHouseNumber();
                     System.out.println("");
 
                     System.out.print("Podaj numer mieszkania lub wpisz \"-\" jeśli nie dotyczy: ");
@@ -68,7 +69,7 @@ public class Main {
                     String postOffice = scan.next();
                     System.out.println("");
 
-                    String personalData = name +" "+ surname +" "+ phone +" "+ street +" "+ houseNumber +" "+ flatNumber +" "+ postcode +" "+ postOffice+ '\n';
+                    String personalData = name + " " + surname + " " + phone + " " + street + " " + houseNumber + " " + flatNumber + " " + postcode + " " + postOffice + '\n';
                     FileData.writeOneData("dane.txt", personalData, true);
 
                     book.add(name, surname, phone, street, houseNumber, flatNumber, postcode, postOffice);
@@ -129,5 +130,62 @@ public class Main {
         }
     }
 
+    public static String getName() {
 
+        String name = "";
+        try {
+            name = scan.next();
+            if (name.matches(".*\\d.*") || name.matches("[a-z]*"))
+                throw new IllegalArgumentException();
+
+        } catch (IllegalArgumentException exception) {
+            System.out.print("Dozwolone są tylko litery! Pierwsza litera musi być wersalikiem!\n Podaj ponownie: ");
+            getName();
+        }
+        return name;
+    }
+
+    public static String getPhoneNumber(AddressBook book) {
+
+        String number = "";
+        try {
+            number = scan.next();
+            if (!number.matches("^\\d{9}$"))
+                throw new IllegalCharException(" 9 ");
+            else if (book.listPhone.contains(number))
+                throw new NumberAlreadySavedException();
+
+        } catch (IllegalCharException exception) {
+
+            getPhoneNumber(book);
+        } catch (NumberAlreadySavedException exception) {
+            getPhoneNumber(book);
+        }
+        return number;
+    }
+
+    public static String getHouseNumber() {
+
+        String number = "";
+        try {
+            number = scan.next();
+            if (!number.matches("\\d*\\d*"))
+                throw new IllegalCharException("");
+
+        } catch (IllegalCharException exception) {
+            getHouseNumber();
+        }
+        return number;
+    }
+}
+class IllegalCharException extends Exception{
+    public IllegalCharException(String num){
+        System.out.println("Numer powinien składać się z" + num + "cyfr!\n Podaj ponownie: ");
+        }
+}
+class NumberAlreadySavedException extends Exception
+{
+    public NumberAlreadySavedException(){
+        System.out.println("Podany numer jest już zapisany! \nPodaj ponownie: ");
+    }
 }

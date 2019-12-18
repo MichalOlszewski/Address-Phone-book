@@ -15,14 +15,14 @@ public class FileData {
             BufferedReader fileR = null;
             try {
                 fileR = new BufferedReader(new FileReader(fileName));
-                String line = fileR.readLine();
-                while (line != null) {
+                    String line = fileR.readLine();
+                    while (line != null) {
 
-                    String[] listData = line.split(" ");
-                    book.getListName().add(listData[0]);
-                    book.getListSurname().add(listData[1]);
-                    book.getListPhone().add(listData[2]);
-                    book.getListStreet().add(listData[3]);
+                        String[] listData = line.split(" ");
+                        book.getListName().add(listData[0]);
+                        book.getListSurname().add(listData[1]);
+                        book.getListPhone().add(listData[2]);
+                        book.getListStreet().add(listData[3]);
                     book.getListHouseNumber().add(listData[4]);
                     book.getListFlatNumber().add(listData[5]);
                     book.getListPostcode().add(listData[6]);
