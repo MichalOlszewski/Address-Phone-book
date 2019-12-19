@@ -1,10 +1,7 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -39,40 +36,113 @@ public class Main {
                     book.search(surname);
                     break;
                 case 3:
-                    System.out.print("Podaj imię: ");
-                    String name = getName();
+                    String name="", phone="", houseNumber="", flatNumber="", postCode="", postOffice="";
+                    surname="";
+                    boolean inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj imię: ");
+                            name = scan.next();
+                            if (!name.matches("[A-Z][a-zA-Z]*"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Imię musi zaczynać się wersalikiem oraz zawierać tylko litery!");
+                        }
+                    }
 
-                    System.out.print("Podaj nazwisko: ");
-                    surname = getName();
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj nazwisko: ");
+                            surname = scan.next();
+                            if (!surname.matches("[A-Z][a-zA-z]*(['-][a-zA-Z]+)*"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Nazwisko musi zaczynać się wersalikiem, może zawierać litery i myślnik!");
+                        }
+                    }
 
-                    System.out.print("Podaj telefon: ");
-                    String phone = getPhoneNumber(book);
-                    System.out.println("");
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj numer telefonu: ");
+                            phone = scan.next();
+                            if (!phone.matches("[0-9]{9}"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Numer telefonu musi składac się z dziewięciu cyfr!");
+                        }
+                    }
 
                     System.out.print("Podaj ulicę: ");
-                    String street = scan.next();
-                    System.out.println("");
+                    String street = scan.nextLine();
 
-                    System.out.print("Podaj numer domu: ");
-                    String houseNumber = getHouseNumber();
-                    System.out.println("");
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj numer domu: ");
+                            houseNumber = scan.next();
+                            if (!houseNumber.matches("[0-9]+"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Numer domu musi być liczbą!");
+                        }
+                    }
 
-                    System.out.print("Podaj numer mieszkania lub wpisz \"-\" jeśli nie dotyczy: ");
-                    String flatNumber = scan.next();
-                    System.out.println("");
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj numer mieszkania: ");
+                            flatNumber = scan.next();
+                            if (!flatNumber.matches("^[0-9]+$|^[-]$"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Numer mieszkania musi być liczbą lub '-'!");
+                        }
+                    }
 
-                    System.out.print("Podaj kod pocztowy: ");
-                    String postcode = scan.next();
-                    System.out.println("");
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj kod pocztowy: ");
+                            postCode = scan.next();
+                            if (!postCode.matches("^(\\d){2}[-](\\d){3}$"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Kod pocztowy musi mieć format \"dd-ddd\", gdzie d jest cyfrą!");
+                        }
+                    }
 
-                    System.out.print("Podaj urząd pocztowy: ");
-                    String postOffice = scan.next();
-                    System.out.println("");
+                    inputOK = false;
+                    while (!inputOK) {
+                        try {
+                            System.out.print("Podaj miejscowość: ");
+                            postOffice = scan.nextLine();
+                            if (!postOffice.matches("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$|^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+\\s[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$"))
+                                throw new InputMismatchException();
+                            else inputOK = true;
+                        }
+                        catch(Exception e) {
+                            System.out.println("Nazwa miejscowości musi zaczynać się wersalikiem i zawierać tylko litery!");
+                        }
+                    }
 
-                    String personalData = name + " " + surname + " " + phone + " " + street + " " + houseNumber + " " + flatNumber + " " + postcode + " " + postOffice + '\n';
+                    String personalData = name + " " + surname + " " + phone + " " + street + " " + houseNumber + " " + flatNumber + " " + postCode + " " + postOffice + '\n';
                     FileData.writeOneData("dane.txt", personalData, true);
 
-                    book.add(name, surname, phone, street, houseNumber, flatNumber, postcode, postOffice);
+                    book.add(name, surname, phone, street, houseNumber, flatNumber, postCode, postOffice);
                     break;
                 case 4:
                     System.out.println("Podaj numer osoby, którą chcesz usunąć:");
@@ -108,14 +178,14 @@ public class Main {
                     System.out.println("");
 
                     System.out.print("Podaj kod pocztowy: ");
-                    postcode = scan.next();
+                    postCode = scan.next();
                     System.out.println("");
 
                     System.out.print("Podaj urząd pocztowy: ");
                     postOffice = scan.next();
                     System.out.println("");
 
-                    book.modify(oldPhone, name, surname, phone, street, houseNumber, flatNumber, postcode, postOffice);
+                    book.modify(oldPhone, name, surname, phone, street, houseNumber, flatNumber, postCode, postOffice);
                     break;
                 case 6:
                     run = false;
@@ -129,63 +199,5 @@ public class Main {
 
         }
     }
-
-    public static String getName() {
-
-        String name = "";
-        try {
-            name = scan.next();
-            if (name.matches(".*\\d.*") || name.matches("[a-z]*"))
-                throw new IllegalArgumentException();
-
-        } catch (IllegalArgumentException exception) {
-            System.out.print("Dozwolone są tylko litery! Pierwsza litera musi być wersalikiem!\n Podaj ponownie: ");
-            getName();
-        }
-        return name;
-    }
-
-    public static String getPhoneNumber(AddressBook book) {
-
-        String number = "";
-        try {
-            number = scan.next();
-            if (!number.matches("^\\d{9}$"))
-                throw new IllegalCharException(" 9 ");
-            else if (book.listPhone.contains(number))
-                throw new NumberAlreadySavedException();
-
-        } catch (IllegalCharException exception) {
-
-            getPhoneNumber(book);
-        } catch (NumberAlreadySavedException exception) {
-            getPhoneNumber(book);
-        }
-        return number;
-    }
-
-    public static String getHouseNumber() {
-
-        String number = "";
-        try {
-            number = scan.next();
-            if (!number.matches("\\d*\\d*"))
-                throw new IllegalCharException("");
-
-        } catch (IllegalCharException exception) {
-            getHouseNumber();
-        }
-        return number;
-    }
 }
-class IllegalCharException extends Exception{
-    public IllegalCharException(String num){
-        System.out.println("Numer powinien składać się z" + num + "cyfr!\n Podaj ponownie: ");
-        }
-}
-class NumberAlreadySavedException extends Exception
-{
-    public NumberAlreadySavedException(){
-        System.out.println("Podany numer jest już zapisany! \nPodaj ponownie: ");
-    }
-}
+
