@@ -27,60 +27,67 @@ public class AddressBook extends Address {
     }
     void remove(String phone){ //podajemy nr telefonu osoby którą chcemy usunąc
         int index;
-        index = listPhone.indexOf(phone);
 
-        listName.remove(index);
-        listSurname.remove(index);
-        listPhone.remove(index);
-        listStreet.remove(index);
-        listHouseNumber.remove(index);
-        listFlatNumber.remove(index);
-        listPostcode.remove(index);
-        listPostOffice.remove(index);
+        index = listPhone.indexOf(phone);
+        if (index>-1) {
+            listName.remove(index);
+            listSurname.remove(index);
+            listPhone.remove(index);
+            listStreet.remove(index);
+            listHouseNumber.remove(index);
+            listFlatNumber.remove(index);
+            listPostcode.remove(index);
+            listPostOffice.remove(index);
+        }
+        else
+            System.out.println("Brak numeru w książce!");
 
     }
     void modify(String oldPhone,String name, String surname, String phone, String street, String houseNumber, String flatNumber, String postcode, String postOffice)
     {  //podajemy nr telefonu osoby którą chcemy usunąc
         int index;
         index = listPhone.indexOf(oldPhone);
-
-        listName.set(index, name);
-        listSurname.set(index, surname);
-        listPhone.set(index, phone);
-        listStreet.set(index, street);
-        listHouseNumber.set(index, houseNumber);
-        listFlatNumber.set(index, flatNumber);
-        listPostcode.set(index, postcode);
-        listPostOffice.set(index, postOffice);
-
+        if (index>-1) {
+            listName.set(index, name);
+            listSurname.set(index, surname);
+            listPhone.set(index, phone);
+            listStreet.set(index, street);
+            listHouseNumber.set(index, houseNumber);
+            listFlatNumber.set(index, flatNumber);
+            listPostcode.set(index, postcode);
+            listPostOffice.set(index, postOffice);
+        }
+        else
+            System.out.println("Brak numeru w książce!");
     }
 
     void search(String surname){
-        ArrayList<Integer> listIndex = new ArrayList<Integer>();
-
+        ArrayList<Integer> listIndex = new ArrayList<>();
         for (int i = 0; i < listSurname.size(); i++)
         {
-
             if(listSurname.get(i).equals(surname))
             {
-                System.out.print(i);
+                //System.out.print(i);
                 listIndex.add(i);
             }
         }
         for(int j = 0; j < 70; j++) System.out.print("-");
         System.out.print('\n');
-        for(int i: listIndex)
-        {
-            System.out.print(getName(i) + '\t' );
-            System.out.print(getSurname(i) + '\t');
-            System.out.print(getPhone(i) + '\t');
-            System.out.print(getStreet(i) + '\t');
-            System.out.print(getHouseNumber(i) + '\t');
-            System.out.print(getFlatNumber(i) + '\t');
-            System.out.print(getPostcode(i) + '\t');
-            System.out.print(getPostOffice(i) + '\n');
-
-        }
+        //System.out.println("Imie          |Nazwisko           |Nr telefonu|Ulica              |Nr domu|Mieszkanie|Kod pocztowy|");
+        if (listIndex.size()==0 )
+            System.out.println("Brak osób o podanym nazwisku!");
+        else
+            for(int i: listIndex)
+            {
+                System.out.print(String.format("%"+-15+"s", getName(i)) + '\t');
+                System.out.print(String.format("%"+-20+"s",getSurname(i)) + '\t');
+                System.out.print(String.format("%"+-11+"s",getPhone(i)) + '\t');
+                System.out.print(String.format("%"+-20+"s",getStreet(i)) + '\t');
+                System.out.print(String.format("%"+-7+"s",getHouseNumber(i)) + '\t');
+                System.out.print(String.format("%"+-10+"s",getFlatNumber(i)) + '\t');
+                System.out.print(String.format("%"+-5+"s",getPostcode(i)) + '\t');
+                System.out.print(String.format("%"+-30+"s",getPostOffice(i)) + '\n');
+            }
         for(int j = 0; j < 70; j++) System.out.print("-");
         System.out.print('\n');
     }
@@ -91,16 +98,14 @@ public class AddressBook extends Address {
         System.out.print('\n');
         for(int i = 0; i<listName.size(); i++)
         {
-            System.out.print(getName(i) + '\t');
-            System.out.print(getSurname(i) + '\t');
-            System.out.print(getPhone(i) + '\t');
-            System.out.print(getStreet(i) + '\t');
-            System.out.print(getHouseNumber(i) + '\t');
-            System.out.print(getFlatNumber(i) + '\t');
-            System.out.print(getPostcode(i) + '\t');
-            System.out.print(getPostOffice(i) + '\n');
-
-
+            System.out.print(String.format("%"+-15+"s", getName(i)) + '\t');
+            System.out.print(String.format("%"+-20+"s",getSurname(i)) + '\t');
+            System.out.print(String.format("%"+-10+"s",getPhone(i)) + '\t');
+            System.out.print(String.format("%"+-20+"s",getStreet(i)) + '\t');
+            System.out.print(String.format("%"+-4+"s",getHouseNumber(i)) + '\t');
+            System.out.print(String.format("%"+-3+"s",getFlatNumber(i)) + '\t');
+            System.out.print(String.format("%"+-5+"s",getPostcode(i)) + '\t');
+            System.out.print(String.format("%"+-30+"s",getPostOffice(i)) + '\n');
         }
         for(int j = 0; j < 70; j++) System.out.print("-");
         System.out.print('\n');

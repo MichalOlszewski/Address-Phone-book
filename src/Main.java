@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Main {
 
-    private static Scanner scan = new Scanner(System.in);
+    private static Scanner scan = new Scanner(System.in).useDelimiter("\\n");
 
     public static void main(String[] args) throws IOException {
         AddressBook book = new AddressBook();
@@ -43,9 +43,12 @@ public class Main {
                         try {
                             System.out.print("Podaj imię: ");
                             name = scan.next();
-                            if (!name.matches("[A-Z][a-zA-Z]*"))
+                            if (!name.matches("[A-Z][a-z]*"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                                //name=String.format("%"+-15+"s", name);
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Imię musi zaczynać się wersalikiem oraz zawierać tylko litery!");
@@ -57,9 +60,12 @@ public class Main {
                         try {
                             System.out.print("Podaj nazwisko: ");
                             surname = scan.next();
-                            if (!surname.matches("[A-Z][a-zA-z]*(['-][a-zA-Z]+)*"))
+                            if (!surname.matches("[A-Z][a-z]*(['-][A-Z][a-z]*)*"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                                //surname=String.format("%"+-20+"s", surname);
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Nazwisko musi zaczynać się wersalikiem, może zawierać litery i myślnik!");
@@ -73,15 +79,21 @@ public class Main {
                             phone = scan.next();
                             if (!phone.matches("[0-9]{9}"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else if (book.listPhone.contains(phone))
+                                throw new InputMismatchException();
+                            else {
+                                inputOK = true;
+                                //phone=String.format("%"+-10+"s", phone);
+                            }
                         }
                         catch(Exception e) {
-                            System.out.println("Numer telefonu musi składac się z dziewięciu cyfr!");
+                            System.out.println("Numer telefonu musi składac się z dziewięciu cyfr! \nNiepoprawny numer telefonu lub numer znajduje się już w książce!");
                         }
                     }
 
-                    System.out.print("Podaj ulicę: ");
-                    String street = scan.nextLine();
+                    System.out.print("Podaj nazwę ulicy: ");
+                    String street = scan.next();
+                    //street=String.format("%"+-25+"s", street);
 
                     inputOK = false;
                     while (!inputOK) {
@@ -90,7 +102,10 @@ public class Main {
                             houseNumber = scan.next();
                             if (!houseNumber.matches("[0-9]+"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                                //houseNumber=String.format("%"+-4+"s", houseNumber);
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Numer domu musi być liczbą!");
@@ -104,7 +119,10 @@ public class Main {
                             flatNumber = scan.next();
                             if (!flatNumber.matches("^[0-9]+$|^[-]$"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                                //flatNumber=String.format("%"+-3+"s", flatNumber);
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Numer mieszkania musi być liczbą lub '-'!");
@@ -118,7 +136,10 @@ public class Main {
                             postCode = scan.next();
                             if (!postCode.matches("^(\\d){2}[-](\\d){3}$"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                                postCode+=" ";
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Kod pocztowy musi mieć format \"dd-ddd\", gdzie d jest cyfrą!");
@@ -128,11 +149,14 @@ public class Main {
                     inputOK = false;
                     while (!inputOK) {
                         try {
-                            System.out.print("Podaj miejscowość: ");
-                            postOffice = scan.nextLine();
+                            System.out.print("Podaj urząd pocztowy: ");
+                            postOffice = scan.next();
                             if (!postOffice.matches("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$|^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+\\s[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$"))
                                 throw new InputMismatchException();
-                            else inputOK = true;
+                            else {
+                                inputOK = true;
+                               //3 postOffice=String.format("%"+-20+"s", postOffice);
+                            }
                         }
                         catch(Exception e) {
                             System.out.println("Nazwa miejscowości musi zaczynać się wersalikiem i zawierać tylko litery!");
